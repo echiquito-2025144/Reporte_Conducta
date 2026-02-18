@@ -125,7 +125,7 @@ public class SoluciónController {
         Map<String, Object> mapa = new LinkedHashMap<>();
         mapa.put("id",                    s.getId());
         mapa.put("reporteId",             s.getReporte().getId());
-        mapa.put("numeroCarneEstudiante", s.getReporte().getNumeroCarneEstudiante());
+        mapa.put("numeroCarneEstudiante", s.getReporte().getEstudiante().getNumeroCarne());
         mapa.put("tipoApoyo",             s.getTipoApoyo());
         mapa.put("consejo",               s.getConsejo());
         mapa.put("consejoRapido",         s.consejoRapido());

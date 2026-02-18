@@ -172,7 +172,7 @@ public class EstadoReporteController {
 
         mapa.put("id",                         estado.getId());
         mapa.put("numeroReporte",              estado.getReporte().getId());
-        mapa.put("numeroCarneEstudiante",      estado.getReporte().getNumeroCarneEstudiante());
+        mapa.put("numeroCarneEstudiante",      estado.getReporte().getEstudiante().getNumeroCarne());
         mapa.put("estado",                     estado.getEstado());
         mapa.put("fueVisualizado",             estado.fueVisualizado());
         mapa.put("fechaCreacionEstado",        estado.getFechaCreacionEstado());
