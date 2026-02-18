@@ -20,20 +20,23 @@ public class Reporte {
     @Column(name = "fecha")
     private LocalDateTime fecha;
 
-    @Column(name = "numero_carne_estudiante")
-    private String numeroCarneEstudiante;
+    // Relación Many-to-One con Estudiante
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "numero_carne_estudiante", referencedColumnName = "numero_carne")
+    private Estudiante estudiante;
 
     public Reporte() {
         this.fecha = LocalDateTime.now();
     }
 
-    public Reporte(String descripcion, String tipo, String numeroCarneEstudiante) {
+    public Reporte(String descripcion, String tipo, Estudiante estudiante) {
         this.descripcion = descripcion;
         this.tipo = tipo;
-        this.numeroCarneEstudiante = numeroCarneEstudiante;
+        this.estudiante = estudiante;
         this.fecha = LocalDateTime.now();
     }
 
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -50,8 +53,8 @@ public class Reporte {
         return fecha;
     }
 
-    public String getNumeroCarneEstudiante() {
-        return numeroCarneEstudiante;
+    public Estudiante getEstudiante() {
+        return estudiante;
     }
 
     public void setId(Long id) {
@@ -70,7 +73,7 @@ public class Reporte {
         this.fecha = fecha;
     }
 
-    public void setNumeroCarneEstudiante(String numeroCarneEstudiante) {
-        this.numeroCarneEstudiante = numeroCarneEstudiante;
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
     }
 }

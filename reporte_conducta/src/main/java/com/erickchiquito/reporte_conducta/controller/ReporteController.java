@@ -1,6 +1,7 @@
 package com.erickchiquito.reporte_conducta.controller;
 
 import com.erickchiquito.reporte_conducta.entity.Reporte;
+import com.erickchiquito.reporte_conducta.repository.EstudianteRepository;
 import com.erickchiquito.reporte_conducta.repository.ReporteRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,11 @@ import java.util.List;
 public class ReporteController {
 
     private final ReporteRepository repo;
+    private final EstudianteRepository estudianteRepo;
 
-    public ReporteController(ReporteRepository repo){
+    public ReporteController(ReporteRepository repo, EstudianteRepository estudianteRepo){
         this.repo = repo;
+        this.estudianteRepo = estudianteRepo;
     }
 
     @GetMapping
@@ -23,14 +26,24 @@ public class ReporteController {
     }
 
     @PostMapping
-    public Reporte guardar(@RequestBody Reporte r){
-        return repo.save(r);
+    public ResponseEntity<Reporte> guardar(@RequestBody Reporte r){
+        if (r.getEstudiante() == null || !estudianteRepo.existsById(r.getEstudiante().getNumeroCarne())) {
+            return ResponseEntity.badRequest().build(); // No existe el estudiante
+        }
+        r.setEstudiante(estudianteRepo.findById(r.getEstudiante().getNumeroCarne()).get());
+        return ResponseEntity.ok(repo.save(r));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Reporte> actualizar(@PathVariable Long id, @RequestBody Reporte reporte){
         if (!repo.existsById(id)){
             return ResponseEntity.notFound().build();
+        }
+        if (reporte.getEstudiante() != null && !estudianteRepo.existsById(reporte.getEstudiante().getNumeroCarne())) {
+            return ResponseEntity.badRequest().build(); // No existe el estudiante
+        }
+        if (reporte.getEstudiante() != null) {
+            reporte.setEstudiante(estudianteRepo.findById(reporte.getEstudiante().getNumeroCarne()).get());
         }
         reporte.setId(id);
         return ResponseEntity.ok(repo.save(reporte));
