@@ -17,7 +17,7 @@ public class Solución {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Reporte al que responde esta solución
+
     @OneToOne
     @JoinColumn(name = "reporte_id", nullable = false, unique = true)
     private Reporte reporte;
@@ -38,10 +38,10 @@ public class Solución {
     @Column(name = "mensaje_motivacional", length = 500)
     private String mensajeMotivacional;
 
-    // ─── Constructor vacío ────────────────────────────────────────────────
+
     public Solución() {}
 
-    // ─── Constructor principal ────────────────────────────────────────────
+
     public Solución(Reporte reporte, TipoApoyo tipoApoyo,
                     String consejo, String recursoInstitucional,
                     String contactoEmergencia, String mensajeMotivacional) {
@@ -53,7 +53,7 @@ public class Solución {
         this.mensajeMotivacional  = mensajeMotivacional;
     }
 
-    // ─── Método de utilidad: consejo rápido según tipo ───────────────────
+
     @Transient
     public String consejoRapido() {
         return switch (tipoApoyo) {
@@ -68,7 +68,7 @@ public class Solución {
         };
     }
 
-    // ─── Getters y Setters ────────────────────────────────────────────────
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

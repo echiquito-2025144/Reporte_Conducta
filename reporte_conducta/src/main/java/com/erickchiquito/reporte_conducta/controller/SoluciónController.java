@@ -23,15 +23,14 @@ public class SoluciónController {
         this.reporteRepo  = reporteRepo;
     }
 
-    // ─── GET /soluciones ──────────────────────────────────────────────────
-    // Lista todas las soluciones registradas
+
+
     @GetMapping
     public List<Solución> listar() {
         return solucionRepo.findAll();
     }
 
-    // ─── GET /soluciones/reporte/{reporteId} ──────────────────────────────
-    // Obtiene la solución (y sus consejos) asociada a un reporte
+
     @GetMapping("/reporte/{reporteId}")
     public ResponseEntity<Map<String, Object>> consultarPorReporte(@PathVariable Long reporteId) {
         Optional<Solución> opt = solucionRepo.findByReporteId(reporteId);
@@ -40,8 +39,7 @@ public class SoluciónController {
         return ResponseEntity.ok(construirRespuesta(opt.get()));
     }
 
-    // ─── POST /soluciones/reporte/{reporteId} ─────────────────────────────
-    // Crea una solución de apoyo para un reporte de bullying
+
     @PostMapping("/reporte/{reporteId}")
     public ResponseEntity<?> crear(@PathVariable Long reporteId,
                                    @RequestBody Solución body) {
@@ -68,8 +66,8 @@ public class SoluciónController {
         return ResponseEntity.ok(construirRespuesta(solucionRepo.save(nueva)));
     }
 
-    // ─── PUT /soluciones/{id} ─────────────────────────────────────────────
-    // Actualiza la solución (por si se requiere ajustar consejo u observaciones)
+
+
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(@PathVariable Long id,
                                         @RequestBody Solución body) {
@@ -87,8 +85,7 @@ public class SoluciónController {
         return ResponseEntity.ok(construirRespuesta(solucionRepo.save(existente)));
     }
 
-    // ─── GET /soluciones/consejos-generales ───────────────────────────────
-    // Retorna consejos predefinidos de apoyo anti-bullying para cualquier estudiante
+
     @GetMapping("/consejos-generales")
     public ResponseEntity<Map<String, Object>> consejosGenerales() {
         Map<String, Object> resp = new LinkedHashMap<>();
@@ -112,7 +109,7 @@ public class SoluciónController {
         return ResponseEntity.ok(resp);
     }
 
-    // ─── DELETE /soluciones/{id} ──────────────────────────────────────────
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         if (!solucionRepo.existsById(id)) return ResponseEntity.notFound().build();
@@ -120,7 +117,7 @@ public class SoluciónController {
         return ResponseEntity.noContent().build();
     }
 
-    // ─── Helper ───────────────────────────────────────────────────────────
+
     private Map<String, Object> construirRespuesta(Solución s) {
         Map<String, Object> mapa = new LinkedHashMap<>();
         mapa.put("id",                    s.getId());
